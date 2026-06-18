@@ -2,7 +2,6 @@
 
 use App\Models\User;
 
-
 test('logs in a user', function () {
     $user = User::factory()->create([
         'name' => 'John Doe',
@@ -15,11 +14,10 @@ test('logs in a user', function () {
         ->fill('password', 'password123')
         ->click('@login-button')
         ->assertPathIs('/');
-    
+
     $this->assertAuthenticated();
 
 });
-
 
 test('logs out a user', function () {
     $user = User::factory()->create();
@@ -27,7 +25,7 @@ test('logs out a user', function () {
     $this->actingAs($user);
 
     visit('/')->click('Log out');
-    
+
     $this->assertGuest();
 
 });

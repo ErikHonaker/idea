@@ -9,15 +9,14 @@ test('registers a user', function () {
         ->fill('password', 'password123')
         ->click('Create Account')
         ->assertPathIs('/');
-    
+
     $this->assertAuthenticated();
 
     expect(Auth::user())->toMatchArray([
-        'name' =>'John Doe',
-        'email' =>'john@example.com',
-        ]);
+        'name' => 'John Doe',
+        'email' => 'john@example.com',
+    ]);
 });
-
 
 test('registers a valid email address', function () {
     visit('/register')

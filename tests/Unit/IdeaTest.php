@@ -1,16 +1,15 @@
 <?php
 
 use App\Models\Idea;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\User;
 
-test("it belongs to a user", function () {
+test('it belongs to a user', function () {
     $idea = Idea::factory()->create();
 
-    expect($idea->user)->toBeInstanceOf(App\Models\User::class);
+    expect($idea->user)->toBeInstanceOf(User::class);
 });
 
-
-test("it can have steps", function () {
+test('it can have steps', function () {
     $idea = Idea::factory()->create();
 
     expect($idea->steps)->toBeEmpty();
@@ -20,7 +19,7 @@ test("it can have steps", function () {
     ]);
 
     // Refresh the idea to get the updated steps
-    $idea->refresh(); 
+    $idea->refresh();
 
     expect($idea->steps)->toHaveCount(1);
 });
