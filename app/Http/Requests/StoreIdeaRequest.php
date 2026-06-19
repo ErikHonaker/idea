@@ -6,6 +6,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\IdeaStatus;
 
 class StoreIdeaRequest extends FormRequest
 {
@@ -14,7 +16,7 @@ class StoreIdeaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +27,11 @@ class StoreIdeaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string','max:255'],
+            'description' => ['nullable', 'string'],
+            'status' => ['nullable',Rule::enum(IdeaStatus::class)],
+            'links' =>  ['nullable', 'array'],
+            'links.*' => ['url', 'max:255'],
         ];
     }
 }
