@@ -1,4 +1,7 @@
 <?php
+use App\Models\User;
+use App\Models\Idea;
+
 
 it('creates a new idea', function() {
     $user = \App\Models\User::factory()->create();
@@ -28,11 +31,12 @@ it('creates a new idea', function() {
     expect($idea->steps)->toHaveCount(2);
 });
 
+
+
 it('edits an existing new idea', function() {
     $this->actingAs($user = App\models\User::factory()->create());
     $idea = App\Models\Idea::factory()->for($user)->create();
 
-    visit(route('idea.show',$idea))
-        ->click('@edit-idea-button')
-        ->debug();
+    visit(route('ideas.show',$idea))
+        ->click('@edit-idea-button');
 });

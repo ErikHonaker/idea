@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <a href="{{ route('ideas.index') }}" class="flex items-center gap-x-2 text-sm font-medium">
                 <x-icons.arrow-back />
-                Back to Index
+                Back to Ideas
             </a>
 
             <div class="gap-x-3 flex items-center">
@@ -11,9 +11,10 @@
                     x-data
                     class="btn btn-outlined"
                     data-test="edit-idea-button"
-                    @click="$dispatch('open-modal', 'create-idea')"
+                    @click="$dispatch('open-modal', 'edit-idea')"
                 >
                     <x-icons.external />
+
                     Edit Idea
                 </button>
                 <form method="POST" action="{{ route('ideas.destroy', $idea) }}">
@@ -27,7 +28,8 @@
        <div class="mt-8 space-y-6">
             @if($idea->image_path)
                 <div class="rounded-lg overflow-hidden">
-                    <img src="{{ asset('storage/' . $idea->image_path) }}" alt="" class="w-full h-auto object-cover">
+                    <img src="{{ asset('storage/' . $idea->image_path) }}" alt="" 
+                        class="w-full h-auto object-cover">
                 </div>
             @endif
             <h1 class="font-bold text-4xl">{{ $idea->title }}</h1>
@@ -35,9 +37,12 @@
                 <x-idea.status-label :status="$idea->status->value">{{ $idea->status->label() }}</x-idea.status-label>
                     <div class="text-muted-foreground text-sm">{{ $idea->created_at->diffForHumans() }}</div>
             </div>
-            <x-card class="mt-6">
-                <div class="text-foreground max-w-none cursor-pointer">{{ $idea->description }}</div>
-            </x-card>
+            @if ($idea->description)
+                <x-card class="mt-6">
+                    <div class="text-foreground max-w-none cursor-pointer">{{ $idea->description }}</div>
+                </x-card>
+            @endif
+            
             
             @if($idea->steps->count())
                 <div>
@@ -73,5 +78,7 @@
                 </div>
             @endif
        </div>
+
+       <x-idea.modal :idea="$idea" />
     </div>
 </x-layout>
