@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Actions\CreateIdea;
 use App\Actions\UpdateIdea;
 use App\Http\Requests\IdeaRequest;
-use App\Http\Requests\UpdateIdeaRequest;
 use App\IdeaStatus;
 use App\Models\Idea;
 use Illuminate\Http\Request;
@@ -82,7 +81,7 @@ class IdeaController extends Controller
 
         $action->handle($request->safe()->all(), $idea);
 
-        return back()->with('success','Idea updated!');
+        return back()->with('success', 'Idea updated!');
     }
 
     /**

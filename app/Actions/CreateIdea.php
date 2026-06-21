@@ -6,17 +6,12 @@ namespace App\Actions;
 
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CreateIdea
 {
-    public function __construct(#[CurrentUser] protected User $user)
-    {
+    public function __construct(#[CurrentUser] protected User $user) {}
 
-    }
-
-    
     public function handle(array $attributes): void
     {
         $data = collect($attributes)->only([

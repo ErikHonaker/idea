@@ -1,19 +1,16 @@
 <?php
 
-//declare(strict_types=1);
+declare(strict_types=1);
+
+// declare(strict_types=1);
 
 namespace App\Actions;
 
-use App\Models\User;
 use App\Models\Idea;
-use Illuminate\Container\Attributes\CurrentUser;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UpdateIdea
 {
-
-    
     public function handle(array $attributes, Idea $idea): void
     {
         $data = collect($attributes)->only([
