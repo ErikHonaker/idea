@@ -15,6 +15,71 @@
                 <p>What's the Idea?</p>
             </x-card>
         </header>
+        <div
+            x-data="{
+                question: '',
+                answer: '',
+                error: '',
+                loading: false,
+                async ask() {
+                    if (this.question.trim() === '' || this.loading) {
+                        return;
+                    }
+                    this.loading = true;
+                    this.answer = '';
+                    this.error = '';
+                    try {
+                        const response = await fetch('{{ route('ask.store') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                            },
+                            body: JSON.stringify({ question: this.question}),
+                        });
+                        const data = await response.json();
+                        if (!response.ok) {
+                            this.error = data.error || 'Something went wrong.';
+                            return;
+                        }
+                        this.answer = data.answer;
+                    } catch (e) {
+                        this.error = 'The assistant is unavailable right now.';
+                    } finally {
+                        this.loading = false;
+                    }
+                }
+            }"
+            class="mt-8"
+        >
+            <label for="ask" class="block mb-2">Have a question?</label>
+            <textarea
+                id="ask"
+                x-model="question"
+                @keydown.enter.prevent="ask()"
+                :disabled="loading"
+                rows="3"
+                placeholder="Ask about the knowledge base..."
+                class="w-full rounded-lg border border-input bg-background p-3 text-foreground"
+            ></textarea>
+            <button
+                type="button"
+                @click="ask()"
+                :disabled="loading"
+                class="btn mt-2"
+            >
+                <span x-show="!loading">Ask</span>
+                <span x-show="loading">Thinking...</span>
+            </button>
+
+            <div x-show="answer" x-cloak class="mt-4">
+                <x-card>
+                    <p class="text-foreground whitespace-pre-line" x-text="answer"></p>
+                </x-card>
+            </div>
+            <p x-show="error" x-cloak x-text="error" class="mt-4 text-sm text-red-500"></p>
+        </div>
 
         <div>
             <a href="/ideas" class="btn {{ request()->has('status')? 'btn-outlined': '' }}">All</a>

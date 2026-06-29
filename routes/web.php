@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\AskController;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\IdeaImageController;
 use App\Http\Controllers\ProfileController;
@@ -15,6 +16,8 @@ Route::redirect('/', '/ideas');
 Route::get('/ideas', [IdeaController::class, 'index'])->name('ideas.index')->middleware('auth');
 
 Route::post('/ideas', [IdeaController::class, 'store'])->name('ideas.store')->middleware('auth');
+
+Route::post('/ask', [AskController::class, 'store'])->name('ask.store')->middleware('auth');
 
 Route::get('/ideas/{idea}', [IdeaController::class, 'show'])
     ->name('ideas.show')
